@@ -1,5 +1,5 @@
-const CACHE = 'calculadora-eptc-v1';
-const FILES = ['./', 'calculadora-de-entregas.html', 'manifest.json', 'icone-eptc.svg'];
+const CACHE = 'calculadora-eptc-v2';
+const FILES = ['./', 'index.html', 'manifest.json', 'icone-eptc.svg'];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(FILES)));

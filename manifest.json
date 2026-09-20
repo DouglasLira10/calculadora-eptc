@@ -3,7 +3,7 @@
   "short_name": "EPTC",
   "description": "Calculadora de porcentagem de entregas.",
   "lang": "pt-BR",
-  "start_url": "calculadora-de-entregas.html",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#f4f7fb",
   "theme_color": "#172033",

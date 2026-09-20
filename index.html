@@ -3,104 +3,64 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Calculadora EPTC</title>
   <meta name="theme-color" content="#172033">
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icone-eptc.svg">
+  <title>Calculadora EPTC</title>
   <style>
-    :root { --ink:#172033; --muted:#65718b; --line:#dce3ef; --paper:#fff; --canvas:#f4f7fb; --blue:#2e5bff; --green:#07875f; --red:#c03642; }
-    * { box-sizing:border-box; }
-    body { margin:0; min-height:100vh; display:grid; place-items:center; padding:24px; color:var(--ink); background:radial-gradient(circle at 8% 0%, #e8efff 0, transparent 32rem),var(--canvas); font-family:Inter,Segoe UI,Arial,sans-serif; }
-    main { width:min(100%, 680px); background:var(--paper); border:1px solid var(--line); border-radius:24px; box-shadow:0 18px 55px #17203318; overflow:hidden; }
-    header { padding:32px 34px 25px; background:#172033; color:#fff; }
-    .eyebrow { margin:0 0 9px; color:#aebeff; font-size:.76rem; font-weight:750; letter-spacing:.1em; text-transform:uppercase; }
-    h1 { margin:0; font-size:clamp(1.65rem,5vw,2.25rem); letter-spacing:-.04em; }
-    header p { max-width:39rem; margin:12px 0 0; color:#d8dff1; line-height:1.5; }
-    .content { padding:30px 34px 34px; }
-    form { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
-    label { display:grid; gap:8px; font-size:.94rem; font-weight:700; }
-    input { width:100%; padding:14px; border:1px solid var(--line); border-radius:12px; color:var(--ink); font:inherit; font-size:1.1rem; font-weight:700; outline:none; }
-    input:focus { border-color:var(--blue); box-shadow:0 0 0 4px #2e5bff20; }
-    .actions { grid-column:1/-1; display:flex; gap:10px; margin-top:2px; }
-    button { border:0; border-radius:12px; padding:13px 18px; font:inherit; font-weight:750; cursor:pointer; }
-    #calculate { color:#fff; background:var(--blue); }
-    #clear { color:var(--ink); background:#edf1f7; }
-    #install { color:var(--blue); background:#e8efff; }
-    .result { margin-top:28px; padding:25px; border-radius:18px; background:#f7faff; border:1px solid #dbe6ff; text-align:center; }
-    .result-label { margin:0; color:var(--muted); font-size:.85rem; font-weight:750; letter-spacing:.06em; text-transform:uppercase; }
-    #percentage { display:block; margin:7px 0 3px; color:var(--green); font-size:clamp(3rem,11vw,5rem); font-weight:800; letter-spacing:-.08em; line-height:1; }
-    #summary { margin:0; color:var(--ink); font-size:1rem; }
-    .meter { height:12px; margin:22px 0 0; overflow:hidden; border-radius:99px; background:#dce5f4; }
-    #bar { height:100%; width:0%; border-radius:inherit; background:linear-gradient(90deg, #2e5bff, #08a879); transition:width .35s ease; }
-    #error { min-height:1.2em; margin:12px 0 0; color:var(--red); font-size:.92rem; font-weight:650; text-align:center; }
-    .formula { margin:23px 0 0; color:var(--muted); font-size:.85rem; line-height:1.5; text-align:center; }
-    @media (max-width:520px) { body { padding:12px; } header,.content { padding:25px 21px; } form { grid-template-columns:1fr; } .actions { grid-column:auto; } button { flex:1; } }
+    :root{--ink:#172033;--muted:#64708a;--line:#dbe3ee;--paper:#fff;--canvas:#f4f7fb;--blue:#2e5bff;--green:#07875f;--red:#c03642;--dark:#172033}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 8% 0,#e8efff 0,transparent 32rem),var(--canvas);color:var(--ink);font-family:Inter,Segoe UI,Arial,sans-serif}.shell{width:min(100%,920px);margin:0 auto;padding:24px}.login-wrap{min-height:100vh;display:grid;place-items:center;padding:24px}.login-card{width:min(100%,430px);background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:32px;box-shadow:0 18px 55px #17203318}.brand{color:var(--blue);font-weight:800;font-size:.78rem;letter-spacing:.12em;margin:0 0 12px;text-transform:uppercase}h1,h2,h3,p{margin-top:0}h1{font-size:clamp(1.7rem,5vw,2.3rem);letter-spacing:-.04em}h2{font-size:1.2rem;margin-bottom:4px}h3{font-size:1rem;margin-bottom:12px}.muted{color:var(--muted);line-height:1.5}.form-grid{display:grid;gap:16px}label{display:grid;gap:7px;font-size:.92rem;font-weight:700}input{width:100%;border:1px solid var(--line);border-radius:11px;padding:13px;color:var(--ink);font:inherit;outline:0}input:focus{border-color:var(--blue);box-shadow:0 0 0 4px #2e5bff20}button{border:0;border-radius:11px;padding:12px 16px;font:inherit;font-weight:750;cursor:pointer}.primary{background:var(--blue);color:#fff}.secondary{background:#eaf0ff;color:var(--blue)}.danger{background:#fff0f1;color:var(--red)}.text-button{background:transparent;color:var(--blue);padding:0;text-align:left}.error{min-height:1.2em;color:var(--red);font-size:.9rem;font-weight:650}.app-head{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:22px 0}.app-head h1{font-size:1.65rem;margin:0}.identity{color:var(--muted);font-size:.9rem}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}.tab{background:#e9eef7;color:var(--ink)}.tab.active{background:var(--dark);color:#fff}.panel{display:none}.panel.active{display:block}.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 8px 28px #1720330c}.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:19px}.result{margin-top:22px;padding:22px;background:#f6f9ff;border:1px solid #dbe6ff;border-radius:15px;text-align:center}.result small{color:var(--muted);font-weight:750;letter-spacing:.06em}.percent{display:block;color:var(--green);font-size:clamp(3rem,10vw,4.7rem);font-weight:850;letter-spacing:-.08em;line-height:1;margin:7px 0}.meter{height:11px;overflow:hidden;border-radius:99px;background:#dce5f4;margin-top:18px}.meter div{height:100%;border-radius:inherit;background:linear-gradient(90deg,#2e5bff,#08a879);transition:width .3s}.report-controls{display:flex;gap:12px;flex-wrap:wrap;align-items:end;margin-bottom:18px}.report-controls label{min-width:180px}.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}.stat{padding:16px;background:#f6f8fc;border-radius:13px}.stat span{display:block;color:var(--muted);font-size:.8rem;font-weight:700}.stat strong{display:block;margin-top:6px;font-size:1.45rem}.table-wrap{overflow-x:auto}.table{width:100%;border-collapse:collapse;font-size:.9rem}.table th,.table td{padding:11px 8px;border-bottom:1px solid var(--line);text-align:left}.table th{color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}.table td:last-child,.table th:last-child{text-align:right}.empty{padding:25px 0;color:var(--muted);text-align:center}.notice{margin-top:18px;padding:13px;background:#fff8dd;border-radius:11px;color:#695b1a;font-size:.87rem;line-height:1.45}.hidden{display:none!important}@media(max-width:600px){.shell{padding:16px}.login-wrap{padding:16px}.login-card,.card{padding:21px}.app-head{align-items:flex-start;flex-direction:column}.calc-grid,.summary-grid{grid-template-columns:1fr}.actions button{flex:1}.report-controls label{width:100%}}
   </style>
 </head>
 <body>
-  <main>
-    <header>
-      <p class="eyebrow">Controle de rota</p>
-      <h1>Calculadora EPTC</h1>
-      <p>Descubra quantos objetos foram entregues e a sua porcentagem de entrega.</p>
-    </header>
-    <section class="content" aria-label="Dados da entrega">
-      <form id="form" novalidate>
-        <label for="sent">Objetos que saíram
-          <input id="sent" type="number" inputmode="numeric" min="1" step="1" value="50" required>
-        </label>
-        <label for="returned">Objetos que voltaram
-          <input id="returned" type="number" inputmode="numeric" min="0" step="1" value="8" required>
-        </label>
-        <div class="actions">
-          <button id="calculate" type="submit">Calcular</button>
-          <button id="clear" type="button">Limpar</button>
-          <button id="install" type="button" hidden>Instalar app</button>
-        </div>
+  <section id="loginView" class="login-wrap">
+    <main class="login-card">
+      <p class="brand">EPTC · Controle de rota</p>
+      <h1>Entrar</h1>
+      <p class="muted" id="loginHint">Informe sua matrícula e senha.</p>
+      <form id="loginForm" class="form-grid" novalidate>
+        <label>Matrícula<input id="matricula" autocomplete="username" inputmode="numeric" required></label>
+        <label>Senha<input id="senha" type="password" autocomplete="current-password" required></label>
+        <button class="primary" id="loginButton" type="submit">Entrar</button>
+        <button class="text-button" id="registerButton" type="button">Primeiro acesso? Criar cadastro neste dispositivo</button>
+        <p id="loginError" class="error" role="alert"></p>
       </form>
-      <div class="result" aria-live="polite">
-        <p class="result-label">Porcentagem de entrega</p>
-        <output id="percentage">84%</output>
-        <p id="summary">42 de 50 objetos foram entregues</p>
-        <div class="meter" role="progressbar" aria-label="Porcentagem de entrega" aria-valuemin="0" aria-valuemax="100" aria-valuenow="84"><div id="bar" style="width:84%"></div></div>
-      </div>
-      <p id="error" role="alert"></p>
-      <p class="formula">Cálculo: (objetos que saíram − objetos que voltaram) ÷ objetos que saíram × 100</p>
-    </section>
+      <p class="notice">A matrícula e os lançamentos ficam armazenados somente neste navegador. Para uso compartilhado entre dispositivos, será necessário conectar um banco de dados seguro.</p>
+    </main>
+  </section>
+  <main id="appView" class="shell hidden">
+    <header class="app-head"><div><p class="brand">EPTC · Controle de rota</p><h1>Calculadora EPTC</h1></div><div><span id="userLabel" class="identity"></span><button id="logout" class="text-button" type="button">Sair</button></div></header>
+    <nav class="tabs" aria-label="Seções"><button class="tab active" data-tab="calc" type="button">Lançamento</button><button class="tab" data-tab="daily" type="button">Relatório diário</button><button class="tab" data-tab="monthly" type="button">Relatório mensal</button></nav>
+    <section id="calc" class="panel active"><div class="card"><h2>Registrar entrega</h2><p class="muted">O lançamento será salvo com a data selecionada.</p><form id="deliveryForm" novalidate><div class="calc-grid"><label>Data<input id="deliveryDate" type="date" required></label><label>Objetos que saíram<input id="sent" type="number" min="1" step="1" inputmode="numeric" value="50" required></label><label>Objetos que voltaram<input id="returned" type="number" min="0" step="1" inputmode="numeric" value="8" required></label><label>Observação (opcional)<input id="note" maxlength="80" placeholder="Ex.: rota Centro"></label></div><div class="actions"><button class="primary" type="submit">Salvar lançamento</button><button class="secondary" type="button" id="clear">Limpar</button></div><p id="deliveryError" class="error" role="alert"></p></form><div class="result" aria-live="polite"><small>PORCENTAGEM DE ENTREGA</small><output id="percentage" class="percent">84%</output><p id="summary">42 de 50 objetos foram entregues</p><div class="meter" role="progressbar" aria-label="Porcentagem de entrega" aria-valuemin="0" aria-valuemax="100" aria-valuenow="84"><div id="bar" style="width:84%"></div></div></div></div></section>
+    <section id="daily" class="panel"><div class="card"><h2>Relatório diário</h2><div class="report-controls"><label>Selecione a data<input id="dailyDate" type="date"></label><button id="exportDaily" class="secondary" type="button">Baixar CSV</button></div><div id="dailyStats" class="summary-grid"></div><div class="table-wrap"><table class="table"><thead><tr><th>Data</th><th>Saíram</th><th>Voltaram</th><th>Entregues</th><th>%</th><th></th></tr></thead><tbody id="dailyRows"></tbody></table></div></div></section>
+    <section id="monthly" class="panel"><div class="card"><h2>Relatório mensal</h2><div class="report-controls"><label>Selecione o mês<input id="monthlyDate" type="month"></label><button id="exportMonthly" class="secondary" type="button">Baixar CSV</button></div><div id="monthlyStats" class="summary-grid"></div><div class="table-wrap"><table class="table"><thead><tr><th>Data</th><th>Lançamentos</th><th>Saíram</th><th>Entregues</th><th>%</th></tr></thead><tbody id="monthlyRows"></tbody></table></div></div></section>
   </main>
   <script>
-    const form = document.getElementById('form');
-    const sentInput = document.getElementById('sent');
-    const returnedInput = document.getElementById('returned');
-    const percentage = document.getElementById('percentage');
-    const summary = document.getElementById('summary');
-    const bar = document.getElementById('bar');
-    const meter = document.querySelector('.meter');
-    const error = document.getElementById('error');
-    const installButton = document.getElementById('install');
-    const format = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 });
-
-    function calculate() {
-      const sent = Number(sentInput.value);
-      const returned = Number(returnedInput.value);
-      error.textContent = '';
-      if (!Number.isFinite(sent) || sent <= 0) { error.textContent = 'Informe uma quantidade de saída maior que zero.'; return; }
-      if (!Number.isFinite(returned) || returned < 0) { error.textContent = 'A quantidade que voltou não pode ser negativa.'; return; }
-      if (returned > sent) { error.textContent = 'A quantidade que voltou não pode ser maior que a quantidade que saiu.'; return; }
-      const delivered = sent - returned;
-      const rate = (delivered / sent) * 100;
-      percentage.textContent = `${format.format(rate)}%`;
-      summary.textContent = `${format.format(delivered)} de ${format.format(sent)} objetos foram entregues`;
-      bar.style.width = `${rate}%`;
-      meter.setAttribute('aria-valuenow', rate.toFixed(2));
-    }
-    form.addEventListener('submit', event => { event.preventDefault(); calculate(); });
-    [sentInput, returnedInput].forEach(input => input.addEventListener('input', () => { if (sentInput.value && returnedInput.value) calculate(); }));
-    document.getElementById('clear').addEventListener('click', () => { sentInput.value = ''; returnedInput.value = ''; percentage.textContent = '—'; summary.textContent = 'Preencha os valores para calcular'; bar.style.width = '0%'; meter.setAttribute('aria-valuenow', '0'); error.textContent = ''; sentInput.focus(); });
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js');
-    let installPrompt;
-    window.addEventListener('beforeinstallprompt', event => { event.preventDefault(); installPrompt = event; installButton.hidden = false; });
-    installButton.addEventListener('click', async () => { if (!installPrompt) return; installPrompt.prompt(); await installPrompt.userChoice; installPrompt = null; installButton.hidden = true; });
+    const $=id=>document.getElementById(id), key='eptc-delivery-v2', accountKey='eptc-account-v2';
+    const today=()=>new Date().toISOString().slice(0,10), format=n=>new Intl.NumberFormat('pt-BR',{maximumFractionDigits:2}).format(n);
+    const read=()=>JSON.parse(localStorage.getItem(key)||'[]'), write=data=>localStorage.setItem(key,JSON.stringify(data));
+    let currentUser=sessionStorage.getItem('eptc-user')||'';
+    function hash(value){let h=0;for(let i=0;i<value.length;i++)h=((h<<5)-h)+value.charCodeAt(i)|0;return String(h)}
+    function showApp(){if(!currentUser)return;$('loginView').classList.add('hidden');$('appView').classList.remove('hidden');$('userLabel').textContent=`Matrícula: ${currentUser}`;renderAll()}
+    function setLoginMode(){const exists=!!localStorage.getItem(accountKey);$('loginButton').textContent=exists?'Entrar':'Criar acesso';$('registerButton').classList.toggle('hidden',!exists);$('loginHint').textContent=exists?'Informe sua matrícula e senha.':'Primeiro acesso: crie sua matrícula e senha neste dispositivo.'}
+    $('loginForm').addEventListener('submit',e=>{e.preventDefault();const m=$('matricula').value.trim(),s=$('senha').value;if(!m||!s){$('loginError').textContent='Preencha matrícula e senha.';return}const saved=JSON.parse(localStorage.getItem(accountKey)||'null');if(saved&& (saved.m!==m||saved.p!==hash(s))){$('loginError').textContent='Matrícula ou senha incorreta.';return}if(!saved)localStorage.setItem(accountKey,JSON.stringify({m,p:hash(s)}));currentUser=m;sessionStorage.setItem('eptc-user',m);$('loginError').textContent='';showApp()});
+    $('registerButton').addEventListener('click',()=>{if(confirm('Criar um novo cadastro apagará apenas o acesso salvo neste navegador. Continuar?')){localStorage.removeItem(accountKey);setLoginMode()}});
+    $('logout').addEventListener('click',()=>{sessionStorage.removeItem('eptc-user');location.reload()});
+    function calc(){const s=Number($('sent').value),r=Number($('returned').value);if(!Number.isFinite(s)||s<=0||!Number.isFinite(r)||r<0||r>s)return null;const d=s-r,p=d/s*100;$('percentage').textContent=`${format(p)}%`;$('summary').textContent=`${format(d)} de ${format(s)} objetos foram entregues`;$('bar').style.width=`${p}%`;$('bar').parentElement.setAttribute('aria-valuenow',p.toFixed(2));return{sent:s,returned:r,delivered:d,rate:p}}
+    ['sent','returned'].forEach(id=>$(id).addEventListener('input',calc));
+    $('deliveryForm').addEventListener('submit',e=>{e.preventDefault();const result=calc(),date=$('deliveryDate').value;if(!date||!result){$('deliveryError').textContent='Verifique a data e as quantidades informadas.';return}const rows=read();rows.push({id:Date.now(),user:currentUser,date,note:$('note').value.trim(),...result});write(rows);$('deliveryError').textContent='Lançamento salvo com sucesso.';$('note').value='';renderAll()});
+    $('clear').addEventListener('click',()=>{$('sent').value='';$('returned').value='';$('note').value='';$('percentage').textContent='—';$('summary').textContent='Preencha os valores para calcular';$('bar').style.width='0%'});
+    function stats(rows){const sent=rows.reduce((a,x)=>a+x.sent,0),delivered=rows.reduce((a,x)=>a+x.delivered,0),returned=rows.reduce((a,x)=>a+x.returned,0);return{sent,delivered,returned,rate:sent?delivered/sent*100:0}}
+    const statHtml=s=>`<div class="stat"><span>Objetos que saíram</span><strong>${format(s.sent)}</strong></div><div class="stat"><span>Objetos entregues</span><strong>${format(s.delivered)}</strong></div><div class="stat"><span>Porcentagem de entrega</span><strong>${format(s.rate)}%</strong></div>`;
+    function delButton(id){return `<button class="danger delete" data-id="${id}" type="button">Excluir</button>`}
+    function renderDaily(){const date=$('dailyDate').value,rows=read().filter(x=>x.user===currentUser&&x.date===date);$('dailyStats').innerHTML=statHtml(stats(rows));$('dailyRows').innerHTML=rows.length?rows.map(x=>`<tr><td>${x.date}</td><td>${format(x.sent)}</td><td>${format(x.returned)}</td><td>${format(x.delivered)}</td><td>${format(x.rate)}%</td><td>${delButton(x.id)}</td></tr>`).join(''):'<tr><td colspan="6" class="empty">Nenhum lançamento nesta data.</td></tr>'}
+    function renderMonthly(){const month=$('monthlyDate').value,all=read().filter(x=>x.user===currentUser&&x.date.startsWith(month));$('monthlyStats').innerHTML=statHtml(stats(all));const grouped=Object.values(all.reduce((a,x)=>{(a[x.date]??=[]).push(x);return a},{})).sort((a,b)=>b[0].date.localeCompare(a[0].date));$('monthlyRows').innerHTML=grouped.length?grouped.map(g=>{const s=stats(g);return `<tr><td>${g[0].date}</td><td>${g.length}</td><td>${format(s.sent)}</td><td>${format(s.delivered)}</td><td>${format(s.rate)}%</td></tr>`}).join(''):'<tr><td colspan="5" class="empty">Nenhum lançamento neste mês.</td></tr>'}
+    function renderAll(){renderDaily();renderMonthly()}
+    document.addEventListener('click',e=>{if(e.target.classList.contains('delete')&&confirm('Excluir este lançamento?')){write(read().filter(x=>x.id!==Number(e.target.dataset.id)));renderAll()}});
+    $('dailyDate').addEventListener('change',renderDaily);$('monthlyDate').addEventListener('change',renderMonthly);
+    function csv(rows,name){if(!rows.length)return alert('Não há lançamentos para exportar.');const content=['Data,Matrícula,Saíram,Voltaram,Entregues,Porcentagem,Observação',...rows.map(x=>[x.date,x.user,x.sent,x.returned,x.delivered,x.rate.toFixed(2),`"${(x.note||'').replaceAll('"','""')}"`].join(','))].join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type:'text/csv;charset=utf-8'}));a.download=`${name}.csv`;a.click();URL.revokeObjectURL(a.href)}
+    $('exportDaily').addEventListener('click',()=>csv(read().filter(x=>x.user===currentUser&&x.date===$('dailyDate').value),`relatorio-diario-${$('dailyDate').value}`));$('exportMonthly').addEventListener('click',()=>csv(read().filter(x=>x.user===currentUser&&x.date.startsWith($('monthlyDate').value)),`relatorio-mensal-${$('monthlyDate').value}`));
+    document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab,.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(b.dataset.tab).classList.add('active');renderAll()}));
+    $('deliveryDate').value=today();$('dailyDate').value=today();$('monthlyDate').value=today().slice(0,7);setLoginMode();calc();showApp();if('serviceWorker'in navigator)navigator.serviceWorker.register('service-worker.js');
   </script>
 </body>
 </html>
