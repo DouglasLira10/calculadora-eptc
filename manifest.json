@@ -1,0 +1,13 @@
+{
+  "name": "Calculadora EPTC",
+  "short_name": "EPTC",
+  "description": "Calculadora de porcentagem de entregas.",
+  "lang": "pt-BR",
+  "start_url": "calculadora-de-entregas.html",
+  "display": "standalone",
+  "background_color": "#f4f7fb",
+  "theme_color": "#172033",
+  "icons": [
+    { "src": "icone-eptc.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
