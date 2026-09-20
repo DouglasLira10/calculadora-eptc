@@ -19,13 +19,12 @@
       <p class="muted" id="loginHint">Informe sua matrícula e senha.</p>
       <form id="loginForm" class="form-grid" novalidate>
         <label>Matrícula<input id="matricula" autocomplete="username" inputmode="numeric" required></label>
-        <label>E-mail<input id="email" type="email" autocomplete="email" required></label>
         <label>Senha<input id="senha" type="password" autocomplete="current-password" required></label>
         <button class="primary" id="loginButton" type="submit">Entrar</button>
         <button class="text-button" id="registerButton" type="button">Primeiro acesso? Criar cadastro</button>
         <p id="loginError" class="error" role="alert"></p>
       </form>
-      <p class="notice">Seus lançamentos ficam sincronizados com segurança e podem ser acessados no celular ou computador usando a mesma matrícula, e-mail e senha.</p>
+      <p class="notice">Seus lançamentos ficam sincronizados com segurança e podem ser acessados no celular ou computador usando a mesma matrícula e senha.</p>
     </main>
   </section>
   <main id="appView" class="shell hidden">
@@ -41,9 +40,10 @@
     const supabase=window.supabase.createClient('https://hwtkxuhfsrfrpfyitklz.supabase.co','sb_publishable_ouLJyecCLQncbw-cNp61ow_LuaPIQZY');
     const today=()=>new Date().toISOString().slice(0,10),format=n=>new Intl.NumberFormat('pt-BR',{maximumFractionDigits:2}).format(n);
     let currentUser=null,currentMatricula='',records=[],registering=false;
-    function setLoginMode(){ $('loginButton').textContent=registering?'Criar cadastro':'Entrar'; $('registerButton').textContent=registering?'Já possui acesso? Entrar':'Primeiro acesso? Criar cadastro'; $('loginHint').textContent=registering?'Cadastre matrícula, e-mail e senha. Confirme o e-mail quando solicitado.':'Informe matrícula, e-mail e senha para acessar seus dados sincronizados.'; }
+    function emailDaMatricula(matricula){return `${matricula.toLowerCase().replace(/[^a-z0-9]/g,'')}@acesso.eptc.local`}
+    function setLoginMode(){ $('loginButton').textContent=registering?'Criar cadastro':'Entrar'; $('registerButton').textContent=registering?'Já possui acesso? Entrar':'Primeiro acesso? Criar cadastro'; $('loginHint').textContent=registering?'Cadastre sua matrícula e senha.':'Informe sua matrícula e senha para acessar seus dados sincronizados.'; }
     async function showApp(user){ currentUser=user;currentMatricula=user.user_metadata?.matricula||$('matricula').value.trim();$('loginView').classList.add('hidden');$('appView').classList.remove('hidden');$('userLabel').textContent=`Matrícula: ${currentMatricula}`;await refreshRecords(); }
-    $('loginForm').addEventListener('submit',async e=>{e.preventDefault();const matricula=$('matricula').value.trim(),email=$('email').value.trim(),senha=$('senha').value;$('loginError').textContent='';if(!matricula||!email||!senha){$('loginError').textContent='Preencha matrícula, e-mail e senha.';return}let result;if(registering){result=await supabase.auth.signUp({email,password:senha,options:{data:{matricula}}});if(!result.error&&!result.data.session){$('loginError').textContent='Cadastro criado. Confirme o e-mail enviado pelo Supabase e depois entre.';return}}else{result=await supabase.auth.signInWithPassword({email,password:senha});}if(result.error){$('loginError').textContent=result.error.message;return}if(result.data.user.user_metadata?.matricula!==matricula){await supabase.auth.signOut();$('loginError').textContent='Esta matrícula não corresponde a este usuário.';return}await showApp(result.data.user);});
+    $('loginForm').addEventListener('submit',async e=>{e.preventDefault();const matricula=$('matricula').value.trim(),senha=$('senha').value,email=emailDaMatricula(matricula);$('loginError').textContent='';if(!matricula||!senha){$('loginError').textContent='Preencha matrícula e senha.';return}if(email==='@acesso.eptc.local'){$('loginError').textContent='Informe uma matrícula válida.';return}let result;if(registering){result=await supabase.auth.signUp({email,password:senha,options:{data:{matricula}}});if(!result.error&&!result.data.session){$('loginError').textContent='O cadastro requer ativação do administrador. Tente novamente mais tarde.';return}}else{result=await supabase.auth.signInWithPassword({email,password:senha});}if(result.error){$('loginError').textContent=result.error.message;return}if(result.data.user.user_metadata?.matricula!==matricula){await supabase.auth.signOut();$('loginError').textContent='Esta matrícula não corresponde a este usuário.';return}await showApp(result.data.user);});
     $('registerButton').addEventListener('click',()=>{registering=!registering;setLoginMode()});
     $('logout').addEventListener('click',async()=>{await supabase.auth.signOut();location.reload()});
     function calc(){const s=Number($('sent').value),r=Number($('returned').value);if(!Number.isFinite(s)||s<=0||!Number.isFinite(r)||r<0||r>s)return null;const d=s-r,p=d/s*100;$('percentage').textContent=`${format(p)}%`;$('summary').textContent=`${format(d)} de ${format(s)} objetos foram entregues`;$('bar').style.width=`${p}%`;$('bar').parentElement.setAttribute('aria-valuenow',p.toFixed(2));return{sent:s,returned:r,delivered:d,rate:p}}
